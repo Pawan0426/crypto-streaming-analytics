@@ -9,3 +9,11 @@ Aggregates data at hourly level
 Handles ticker, order book, and soon, trade data
 
 Likely visualizes metrics like price trends, volume, market depth, etc.
+
+
+Phase	What to Do Next
+✅ Done	Ingestion + Aggregation
+🔥 Now	Log validation issues to JSON
+⏭️ Next	Rolling analytics → Dashboards
+📦 Optional	Package as CLI or Docker later
+🧪 Optional	Unit tests to keep pipeline stable
