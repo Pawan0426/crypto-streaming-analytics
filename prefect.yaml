@@ -20,7 +20,10 @@ pull:
       access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
 
   - prefect.deployments.steps.run_shell_script:
+      shell: true
       script: |
+        #!/bin/bash
+        set -e
         echo "Installing Python dependencies..."
         if [ -f requirements.txt ]; then
           echo "Found requirements.txt, installing dependencies..."
