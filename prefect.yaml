@@ -17,8 +17,9 @@ pull:
 - prefect.deployments.steps.git_clone:
     repository: https://github.com/Pawan0426/crypto-streaming-analytics.git
     branch: main
-    access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token
-      }}'
+    access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
+- prefect.deployments.steps.pip_install_requirements:
+    requirements_file: requirements.txt
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
