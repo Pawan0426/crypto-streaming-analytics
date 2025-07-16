@@ -21,8 +21,6 @@ pull:
 
   - prefect.deployments.steps.run_shell_script:
       script: |
-        #!/bin/bash
-        set -e
         echo "Installing Python dependencies..."
         if [ -f requirements.txt ]; then
           echo "Found requirements.txt, installing dependencies..."
@@ -32,6 +30,7 @@ pull:
           python -m pip install requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect
         fi
         echo "Dependencies installed successfully!"
+      shell: /bin/bash
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
