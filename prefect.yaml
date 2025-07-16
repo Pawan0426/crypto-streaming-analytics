@@ -20,30 +20,15 @@ pull:
     access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
 - prefect.deployments.steps.run_shell_script:
     script: |
-      echo "=== DEBUGGING DEPLOYMENT ==="
-      echo "Current working directory: $(pwd)"
-      echo "Python version: $(python --version)"
-      echo "Pip version: $(pip --version)"
-      echo ""
-      echo "Files in current directory:"
-      ls -la
-      echo ""
-      echo "Looking for requirements.txt:"
-      find . -name "requirements.txt" -type f 2>/dev/null || echo "find command failed"
-      echo ""
-      echo "Direct file check:"
+      echo "Installing Python dependencies..."
       if [ -f requirements.txt ]; then
-        echo "✓ requirements.txt exists"
-        echo "File size: $(wc -c < requirements.txt) bytes"
-        echo "File permissions: $(ls -l requirements.txt)"
-        echo "Contents:"
-        cat requirements.txt
+        echo "Found requirements.txt, installing dependencies..."
+        python -m pip install -r requirements.txt
       else
-        echo "✗ requirements.txt NOT found"
+        echo "requirements.txt not found, installing basic dependencies..."
+        python -m pip install requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect
       fi
-      echo "=========================="
-- prefect.deployments.steps.pip_install_requirements:
-    requirements_file: requirements.txt
+      echo "Dependencies installed successfully!"
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
