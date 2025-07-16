@@ -19,7 +19,7 @@ pull:
     branch: main
     access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
 - prefect.deployments.steps.pip_install_requirements:
-    requirements: requirements.txt
+    requirements_file: requirements.txt
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
