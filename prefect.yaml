@@ -18,6 +18,30 @@ pull:
     repository: https://github.com/Pawan0426/crypto-streaming-analytics.git
     branch: main
     access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
+- prefect.deployments.steps.run_shell_script:
+    script: |
+      echo "=== DEBUGGING DEPLOYMENT ==="
+      echo "Current working directory: $(pwd)"
+      echo "Python version: $(python --version)"
+      echo "Pip version: $(pip --version)"
+      echo ""
+      echo "Files in current directory:"
+      ls -la
+      echo ""
+      echo "Looking for requirements.txt:"
+      find . -name "requirements.txt" -type f 2>/dev/null || echo "find command failed"
+      echo ""
+      echo "Direct file check:"
+      if [ -f requirements.txt ]; then
+        echo "✓ requirements.txt exists"
+        echo "File size: $(wc -c < requirements.txt) bytes"
+        echo "File permissions: $(ls -l requirements.txt)"
+        echo "Contents:"
+        cat requirements.txt
+      else
+        echo "✗ requirements.txt NOT found"
+      fi
+      echo "=========================="
 - prefect.deployments.steps.pip_install_requirements:
     requirements_file: requirements.txt
 
