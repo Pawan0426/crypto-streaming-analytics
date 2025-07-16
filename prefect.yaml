@@ -20,9 +20,7 @@ pull:
       access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
 
   - prefect.deployments.steps.run_shell_script:
-      script: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; else python -m pip install requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect; fi
+      script: python -m pip install --upgrade pip requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
