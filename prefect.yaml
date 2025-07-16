@@ -14,37 +14,40 @@ push: null
 
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
-- prefect.deployments.steps.git_clone:
-    repository: https://github.com/Pawan0426/crypto-streaming-analytics.git
-    branch: main
-    access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
-- prefect.deployments.steps.run_shell_script:
-    script: |
-      echo "Installing Python dependencies..."
-      if [ -f requirements.txt ]; then
-        echo "Found requirements.txt, installing dependencies..."
-        python -m pip install -r requirements.txt
-      else
-        echo "requirements.txt not found, installing basic dependencies..."
-        python -m pip install requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect
-      fi
-      echo "Dependencies installed successfully!"
+  - prefect.deployments.steps.git_clone:
+      repository: https://github.com/Pawan0426/crypto-streaming-analytics.git
+      branch: main
+      access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
+
+  - prefect.deployments.steps.run_shell_script:
+      script: |
+        bash -c '
+        echo "Installing Python dependencies..."
+        if [ -f requirements.txt ]; then
+          echo "Found requirements.txt, installing dependencies..."
+          python -m pip install -r requirements.txt
+        else
+          echo "requirements.txt not found, installing basic dependencies..."
+          python -m pip install requests pandas pyarrow sqlalchemy python-dotenv psycopg2-binary prefect
+        fi
+        echo "Dependencies installed successfully!"
+        '
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
-- name: Hourly Supabase ETL
-  version: null
-  tags: []
-  concurrency_limit: null
-  description: null
-  entrypoint: orchestration/prefect_etl_flow.py:crypto_etl_supabase
-  parameters: {}
-  work_pool:
-    name: default
-    work_queue_name: null
-    job_variables: {}
-  schedules:
-  - cron: 0 * * * *
-    timezone: null
-    day_or: true
-    active: true
+  - name: Hourly Supabase ETL
+    version: null
+    tags: []
+    concurrency_limit: null
+    description: null
+    entrypoint: orchestration/prefect_etl_flow.py:crypto_etl_supabase
+    parameters: {}
+    work_pool:
+      name: default
+      work_queue_name: null
+      job_variables: {}
+    schedules:
+      - cron: "0 * * * *"
+        timezone: null
+        day_or: true
+        active: true
