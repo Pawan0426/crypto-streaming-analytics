@@ -20,7 +20,6 @@ pull:
       access_token: '{{ prefect.blocks.secret.deployment-hourly-supabase-etl-crypto-etl-supabase-repo-token }}'
 
   - prefect.deployments.steps.run_shell_script:
-      shell: true
       script: |
         #!/bin/bash
         set -e
